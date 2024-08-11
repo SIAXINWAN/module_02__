@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "666541622072",
+    "project_id": "mobile-wsmb2024-02",
+    "storage_bucket": "mobile-wsmb2024-02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666541622072:android:b0036d4e75657787bb37cd",
+        "android_client_info": {
+          "package_name": "com.example.mobile_wsmb2024_02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQgjzGlO6DONyIg_QBKKCWDQsdc6kKe-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
