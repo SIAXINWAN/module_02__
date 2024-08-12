@@ -10,12 +10,12 @@ class Vehicle {
   final int capacity;
   final String special_features;
   String?id;
-  final String driver_id;
+  String? driver_id;
   String?image;
 
   Vehicle({
     this.id,this.image,
-    required this.car_model, required this.capacity, required this.special_features, required this.driver_id});
+    required this.car_model, required this.capacity, required this.special_features, this.driver_id});
     
     static Future<bool> register(
       String model, int capacity, String feature, File? image) async {
@@ -43,28 +43,35 @@ class Vehicle {
         image: imageLink);
 
     var res = await FirestoreService.addVehicle(vehicle);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('vehicle_token', vehicle.id!);
     return res;
   }
 
   Future<Driver?> getDriver() async {
     
-    var driver = await FirestoreService.getDriver(driver_id);
+    var driver = await FirestoreService.getDriver(driver_id!);
     return driver;
   }
 
-   static Future<Vehicle?>getVehicleByToken()async{
+   static Future<Vehicle?> getVehicleByToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    var token = pref.getString('vehicle_token');
+    var token = pref.getString('token');
     if (token == null) {
       return null;
     }
 
-    var vehicle = await FirestoreService.getShortVehicle(token);
-    return vehicle;
+    Vehicle? driver = await FirestoreService.getVehicle(token);
+    return driver;
   }
 
+
+static Future<String>saveImage(File image)async{
+
+      String fileName = 'Vehicle/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      UploadTask uploadTask = FirebaseStorage.instance.ref(fileName).putFile(image);
+      TaskSnapshot snapshot = await uploadTask;
+      String downloadURL = await snapshot.ref.getDownloadURL();
+      return downloadURL;
+    }
 
     factory Vehicle.fromJson(Map<String,dynamic>json,[String?id]){
       return Vehicle(
@@ -84,6 +91,15 @@ class Vehicle {
         'id':id,
         'image':image,
         'driver_id':driver_id
+      };
+    }
+
+     toSome(){
+      return{
+        'car_model':car_model,
+        'capacity':capacity,
+        'special_features':special_features,
+        'image':image,
       };
     }
 }

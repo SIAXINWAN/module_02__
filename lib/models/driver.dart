@@ -127,7 +127,6 @@ SharedPreferences pref = await SharedPreferences.getInstance();
         'name':name,
         'gender':gender,
         'image':image,
-        'password':password,
         'icno':icno,
         'address':address,
         'phone':phone,

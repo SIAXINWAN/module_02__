@@ -130,7 +130,6 @@ class _EditDriverState extends State<EditDriver> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    passwordController.text = widget.driver.password!;
     nameController.text = widget.driver.name;
     icnoController.text = widget.driver.icno;
     gender = widget.driver.gender ? 'male' : 'female';

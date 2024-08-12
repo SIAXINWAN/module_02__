@@ -50,11 +50,14 @@ class _HomePageState extends State<LoginPage> {
                         onPressed: () async{
                           Driver? driver = await Driver.getDriverbyToken();
                           List<Ride>rideList  = await FirestoreService.getRide();
-                        
+                          Vehicle ? vehicle = await Vehicle.getVehicleByToken();
+                          
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => HomePage(
                                 rideList: rideList,
                                 driver: driver!,
+                                vehicle:vehicle!
+
                                
                               )));
                         },

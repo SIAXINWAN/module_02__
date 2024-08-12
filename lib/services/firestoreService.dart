@@ -128,21 +128,26 @@ class FirestoreService {
     }
   }
 
-  static Future<List<Vehicle>> getVehicle() async {
+  static Future<Vehicle?> getVehicle(String driver_id) async {
     try {
-      var collection = await firestore.collection('vehicles').get();
+      var collection = await firestore
+          .collection('vehicles')
+          .where('driver_id', isEqualTo: driver_id)
+          .get();
 
       if (collection.docs.isEmpty) {
-        return [];
+        return null;
       }
 
-      var list =
-          collection.docs.map((e) => Vehicle.fromJson(e.data(), e.id)).toList();
-      return list;
+      // Get the first (and only) document
+      var doc = collection.docs.first;
+      return Vehicle.fromJson(doc.data(), doc.id);
     } catch (e) {
-      return [];
+      return null;
     }
   }
+
+
 
   static Future<List<Ride>> getRide() async {
     try {
@@ -173,7 +178,7 @@ class FirestoreService {
 
   static Future<bool> updateVehicle(Vehicle vehicle, String id) async {
     try {
-      await firestore.collection('vehicle').doc(id).update(vehicle.toJson());
+      await firestore.collection('vehicles').doc(id).update(vehicle.toSome());
       return true;
     } catch (e) {
       return false;

@@ -18,7 +18,7 @@ class Ride {
     required this.date, required this.origin, required this.destination, required this.fare, this.vehicle_id});
 
     static Future<bool> registerRide(String masa, int money, String tempat,
-      String sampai, ) async {
+      String sampai,String id ) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var token = pref.getString('token');
     if (token == null) {
@@ -30,6 +30,7 @@ class Ride {
         destination: sampai,
         fare: money,
         date: masa,
+        vehicle_id: id
         );
 
     var res = await FirestoreService.addRide(ride);

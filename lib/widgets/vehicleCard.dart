@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_wsmb2024_02/models/vehicle.dart';
+import 'package:mobile_wsmb2024_02/pages/profile/editVehicle.dart';
 
 class VehicleCard extends StatefulWidget {
   const VehicleCard({super.key,  required this.vehicle});
@@ -48,7 +49,10 @@ class _VehicleCardState extends State<VehicleCard> {
             ),
               ],
             ),
-            
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditVehicle(vehicle: widget.vehicle,)));
+            }, child: Icon(Icons.edit))
           ],
         ),
       )

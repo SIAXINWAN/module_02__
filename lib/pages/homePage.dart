@@ -7,9 +7,10 @@ import 'package:mobile_wsmb2024_02/pages/ride/rideList.dart';
 import 'package:mobile_wsmb2024_02/pages/startPage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.driver, required this.rideList, });
+  const HomePage({super.key, required this.driver, required this.rideList, required this.vehicle, });
   final Driver driver;
   final List<Ride>rideList;
+  final Vehicle vehicle;
  
 
   @override
@@ -29,7 +30,7 @@ late List<Widget>tabs = [];
     tabs= [
       
       RideListTab(rideList: widget.rideList,),
-      ProfilePageTab()
+      ProfilePageTab(driver:widget.driver,vehicle:widget.vehicle)
 
     ];
   }

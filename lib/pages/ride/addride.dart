@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_wsmb2024_02/models/ride.dart';
+import 'package:mobile_wsmb2024_02/models/vehicle.dart';
+import 'package:mobile_wsmb2024_02/services/firestoreService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddRide extends StatefulWidget {
   const AddRide({super.key});
@@ -14,6 +17,21 @@ class _AddRideState extends State<AddRide> {
   final fareController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  Vehicle?vehicle;
+
+  void getVehicle()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var token = await pref.getString('token');
+   vehicle = await FirestoreService.getVehicle(token!);
+    
+  }
+
+
+ @override
+ void initState() {
+   super.initState();
+   getVehicle();
+ }
   DateTime? dateTime;
 
   void submitForm() async {
@@ -28,7 +46,8 @@ class _AddRideState extends State<AddRide> {
           dateTime.toString(),
           int.parse(fareController.text),
           originController.text,
-          destController.text);
+          destController.text,vehicle?.id??'',
+          );
       if (res) {
         await showDialog(
             context: context,
@@ -189,7 +208,7 @@ class _AddRideState extends State<AddRide> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your Fare';
-                            } else if (double.parse(value) == null) {
+                            } else if (double.tryParse(value) == null) {
                               return 'Please enter a valid fare';
                             }
                             return null;
